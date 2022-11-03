@@ -1,0 +1,22 @@
+name: Repository Dispatch
+
+on:
+  push:
+    branches: [main, develop, testing]
+    
+jobs:
+  releaseDispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Branch Name
+        run: |
+          branch=${{ github.ref }}
+          echo "BRANCH=$(echo $branch | cut -d"/" -f3)" >> $GITHUB_ENV
+      - run: echo ${{ env.BRANCH }}
+      - name: Release Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: ORT-FI-8184-DevOps/2022S2-G4-MGEA-SPAROLI
+          event-type: shipping-service-release
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "repository": "${{ github.repository }}", "token": "${{ github.token }}"}'
