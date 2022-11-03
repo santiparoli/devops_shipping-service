@@ -2,7 +2,7 @@ name: Repository Dispatch
 
 on:
   push:
-    branches: [main, develop, testing]
+    branches: [master, develop, testing]
     
 jobs:
   releaseDispatch:
