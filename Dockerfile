@@ -5,7 +5,7 @@ COPY pom.xml /workspace
 COPY src /workspace/src
 RUN mvn -B package --file pom.xml -DskipTests
 
-FROM openjdk:14-slim
-RUN apt-get update && apt-get install -y curl
+FROM ibmjava:sfj-alpine
+RUN apk add --update curl
 COPY --from=build /workspace/target/shipping-service-example-*-SNAPSHOT-spring-boot.jar app.jar
 CMD java -jar /app.jar
